@@ -16,8 +16,3 @@ class Button:
 
     def draw(self, screen):
         screen.blit(self.image, self.rect)
-
-    def is_clicked(self, event):
-        if event.type == pg.MOUSEBUTTONDOWN:
-            if event.button == 1:
-                return self.rect.collidepoint(event.pos)

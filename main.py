@@ -32,8 +32,12 @@ def main():
             if event.type == pg.QUIT:
                 running = False
             if event.type == pg.MOUSEBUTTONDOWN:
-                for field in settings.fields:
-                    field['input'] = settings.active(field['input'], event.pos)    
+                mouse = pg.mouse.get_pos()
+                if settings.button.rect.collidepoint(mouse):
+                    print("clicked")
+                else:
+                    for field in settings.fields:
+                        field['input'] = settings.active(field['input'], event.pos)    
             if event.type == pg.KEYDOWN:
                 for field in settings.fields:
                     if field['input']['active']:

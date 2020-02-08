@@ -95,11 +95,13 @@ class Game:
     def set_humans(self):
         msg = "Combien de joueurs vont participer à cette partie? \n"
         players_count = input(msg)
-        while(not players_count.isdigit() or int(players_count)<1):
+        while(not players_count.isdigit() or int(players_count)<1 or int(players_count)>6):
             if not players_count.isdigit():
                 print('{} n\'est pas un nombre valide!'.format(players_count))
+            elif int(players_count)<1:
+                print('Il faut au moins 1 joueur pour jouer!')
             else:
-                print('Il faut au moins un joueur pour jouer!')
+                print('Nombre de joueurs trop élevé!')
             players_count = input(msg)
         players_count = int(players_count)
         self.humans = self.generate_humans(players_count)

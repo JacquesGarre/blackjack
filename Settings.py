@@ -10,7 +10,8 @@ class Settings:
         self.title = data['title']
         self.fields = data['fields']
         self.bg_color = data['bg_color']
-        self.button_data = data['button']
+        self.btn_data = data['button']
+        self.button = None
 
     def display_text(self, screen, text):
         font = pg.font.Font(None, text['font_size'])
@@ -47,6 +48,14 @@ class Settings:
         for field in self.fields:
             self.display_text(screen, field['label'])
             self.display_text_field(screen, field['input'])
-        data = self.button_data
-        button = Button((data['x'], data['y']), (data['w'], data['h']), data['font_color'], data['text'], data['bg_color'], data['font_size'])
+        data = self.btn_data
+        button = Button(
+            (data['x'], data['y']), 
+            (data['w'], data['h']), 
+            data['font_color'], 
+            data['text'], 
+            data['bg_color'], 
+            data['font_size']
+        )
+        self.button = button
         button.draw(screen)
