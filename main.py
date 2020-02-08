@@ -83,9 +83,6 @@ def main():
         screen.blit(font_render, text_rect) 
 
     def active(field, pos):
-
-        print(field)
-        pass
         color_inactive = pg.Color('lightskyblue3')
         color_active = pg.Color('dodgerblue2')
         active = False
