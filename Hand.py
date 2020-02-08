@@ -32,9 +32,9 @@ class Hand:
         string = ""
         for card in self.cards:
             if card.hidden:
-                string += "carte cachée, "
+                string += "(carte cachée) "
             else:
-                string += str(card.value) + ", "
+                string += str(card.value) + " "
         return string
 
     def __get_cards_split_by_aces(self):
