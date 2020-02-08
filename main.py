@@ -2,15 +2,9 @@ from Game import Game
 from Settings import Settings
 import pygame as pg
 
-
-
-
 def die():
     import sys
     sys.exit()
-
-Settings('json/settings.json')
-
 
 def main():
     # game = Game()
