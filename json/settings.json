@@ -1,0 +1,67 @@
+{ 
+  "bg_color": [30, 30, 30],
+  "title": {
+      "x": 400,
+      "y": 50,
+      "bg_color": [173,216,230],
+      "font_size": 32,
+      "font_color": [30, 30, 30],
+      "content": "Paramètres"
+  },
+  "button": {
+      "x": 330,
+      "y": 500,
+      "w": 140,
+      "h": 50,
+      "font_color":[173,216,230],
+      "font_size":25,
+      "bg_color":[30,30,30],
+      "text":"Jouer!"
+  },
+  "fields": [{
+      "label": {
+          "x": 400,
+          "y": 150,
+          "bg_color": [173,216,230],
+          "font_size": 25,
+          "font_color": [30, 30, 30],
+          "content": "Mode de jeu (EU / US)"
+      },
+      "input": {
+          "rect": [300, 170, 140, 32],
+          "color": [173,216,230],
+          "active": "False",
+          "text": ""
+      }
+  },{
+      "label": {
+          "x": 400,
+          "y": 250,
+          "bg_color": [173,216,230],
+          "font_size": 25,
+          "font_color": [30, 30, 30],
+          "content": "Nombre de joueurs (1 - 6)"
+      },
+      "input": {
+          "rect": [300, 270, 140, 32],
+          "color": [173,216,230],
+          "active": "False",
+          "text": ""
+      }
+  },{     
+      "label": {
+          "x": 400,
+          "y": 350,
+          "bg_color": [173,216,230],
+          "font_size": 25,
+          "font_color": [30, 30, 30],
+          "content": "Coopération (y / n)"
+      },
+      "input": {
+          "rect": [300, 370, 140, 32],
+          "color": [173,216,230],
+          "active": "False",
+          "text": ""
+      }
+  }]
+}
