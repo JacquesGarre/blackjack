@@ -9,8 +9,7 @@ class Hand:
         self.cards.append(card)
 
     def is_blackjack(self):
-        aces = self.__get_cards_split_by_aces()[0]
-        return len(aces) == 2 and self.score() == 21
+        return len(self.cards) == 2 and self.score() == 21
 
     def score(self):
         score = 0
