@@ -7,8 +7,9 @@ class Player:
         self.hand = Hand()
 
     def show_hand(self):
-        print("La main de {} contient les cartes suivantes: {}\nIl totalise un score de {} points.\n".format(
+        print("La main de {} contient les cartes suivantes: {}\nIl totalise un score de {} points. {}".format(
             self.name,
             self.hand.to_string(),
-            self.hand.score()
+            self.hand.score(),
+            "BLACKJACK!" if self.hand.is_blackjack() else ""
         ))

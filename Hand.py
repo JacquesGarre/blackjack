@@ -50,3 +50,6 @@ class Hand:
     def unhide(self):
         for card in self.cards:
             card.hidden = False
+      
+    def reset(self):
+        self.cards = []
