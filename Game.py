@@ -57,6 +57,7 @@ class Game:
 
     def set_ranking(self):
         # sorted(list, cmp=function)
+        # sorted(list, key=property_to_compare)
         self.ranking.append({
             "name": self.computer.name,
             "score": self.computer.hand.score() if self.computer.hand.score() <= 21 else 0,
