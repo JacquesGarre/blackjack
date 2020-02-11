@@ -16,7 +16,7 @@
       "font_color":[173,216,230],
       "font_size":25,
       "bg_color":[30,30,30],
-      "text":"Jouer!"
+      "text":"Créer les joueurs!"
   },
   "fields": [{
       "label": {
@@ -40,7 +40,7 @@
           "bg_color": [173,216,230],
           "font_size": 25,
           "font_color": [30, 30, 30],
-          "content": "Nombre de joueurs (1 - 7)"
+          "content": "Nombre de joueurs (1 - 6)"
       },
       "input": {
           "rect": [300, 200, 140, 32],

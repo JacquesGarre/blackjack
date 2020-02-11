@@ -7,14 +7,14 @@ import os
 
 class Game:
 
-    def __init__(self):
+    def __init__(self, mode, bet, coop):
         self.deck = self.get_deck(shuffled = True)
         self.humans = []
         self.computer = Computer()
-        self.mode = "EU"
+        self.mode = mode
         self.ranking = []
-        self.coop = False
-        self.bet = 0
+        self.coop = coop
+        self.bet = bet
 
     def clear(self):
         return lambda: os.system('cls')
@@ -29,6 +29,17 @@ class Game:
                 name = str(input(msg))
             humans.append(Human(name, int(stack)))
         return humans
+
+    # def generate_humans(self, count, stack): 
+    #     humans = []
+    #     for i in range(count):
+    #         msg = "Quel est votre pseudo, joueur {} ?\n".format(i+1)
+    #         name = str(input(msg))
+    #         while len(name) < 2:
+    #             print("2 caractères minimum s'il vous plaît!")
+    #             name = str(input(msg))
+    #         humans.append(Human(name, int(stack)))
+    #     return humans
 
     def get_deck(self, shuffled):
         deck = Deck()
@@ -105,15 +116,15 @@ class Game:
         self.mode = mode
     
     def set_players_count(self):
-        msg = "Combien de joueurs vont participer à cette partie? (1-7)\n"
+        msg = "Combien de joueurs vont participer à cette partie? (1-6)\n"
         players_count = input(msg)
-        while not players_count.isdigit() or int(players_count)<1 or int(players_count)>7:
+        while not players_count.isdigit() or int(players_count)<1 or int(players_count)>6:
             if not players_count.isdigit():
                 print('{} n\'est pas un nombre valide!'.format(players_count))
             elif int(players_count)<1:
                 print('Il faut au moins un joueur pour jouer!')
             else:
-                print('7 joueurs maximum autorisés!')
+                print('6 joueurs maximum autorisés!')
             players_count = input(msg)
         return int(players_count)
     
