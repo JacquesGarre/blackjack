@@ -42,7 +42,7 @@ def main():
             running, done_generating_players, players_name = players_page.players_page(screen, clock, players_count)
 
         # Génération des joueurs
-        for name in players_name:
+        # for name in players_name:
             
         
         # Reset page
