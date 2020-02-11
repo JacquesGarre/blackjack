@@ -1,6 +1,9 @@
 from Human import Human
+from Player import Player
 from Deck import Deck
 from Computer import Computer
+import os
+
 
 class Game:
 
@@ -12,6 +15,9 @@ class Game:
         self.ranking = []
         self.coop = False
         self.bet = 0
+
+    def clear(self):
+        return lambda: os.system('cls')
 
     def generate_humans(self, count, stack): 
         humans = []
@@ -54,25 +60,22 @@ class Game:
         for human in self.humans:
             human.show_hand()
             human.show_stack()
-
+    
     def set_ranking(self):
-        # sorted(list, cmp=function)
-        # sorted(list, key=property_to_compare)
-        self.ranking.append({
-            "name": self.computer.name,
-            "score": self.computer.hand.score() if self.computer.hand.score() <= 21 else 0,
-            "blackjack": self.computer.hand.is_blackjack()
-        })
-        for human in self.humans:
-            rank = {
-                "name" : human.name,
-                "score" : human.hand.score() if human.hand.score() <= 21 else 0,
-                "blackjack": human.hand.is_blackjack()
-            }
-            i = 0
-            while (i < len(self.ranking) - 1) and (rank['score'] < self.ranking[i]['score']) or self.ranking[i]['blackjack']:
-                i += 1
-            self.ranking.insert(i, rank)
+        players = self.humans + [self.computer]
+        sorted(players, key=lambda player: (player.hand.score(), player.hand.is_blackjack()))
+        ranked_players = [player for player in players if player.hand.score() <= 21]
+        unranked_players  = [player for player in players if player.hand.score() > 21]
+        self.ranking = ranked_players + unranked_players
+    
+    def get_winners(self):
+        ranked_players = [player for player in self.ranking if player.hand.score() <= 21]
+        one_of_the_best = max(ranked_players, key=lambda player: (player.hand.score(), player.hand.is_blackjack()))
+        winners = []
+        for player in ranked_players:
+            if player.hand.score() == one_of_the_best.hand.score() and player.hand.is_blackjack() == one_of_the_best.hand.is_blackjack():
+                winners.append(player)
+        return winners
 
     def reset(self):
         self.ranking = []
@@ -89,6 +92,7 @@ class Game:
         return action
 
     def welcome_msg(self):
+        self.clear()
         print("================================================== \n")
         print('              Bienvenue au Black jack!             \n')    
         print("================================================== \n")
@@ -99,8 +103,8 @@ class Game:
         while mode not in ['EU', 'US']:
             mode = input(msg)
         self.mode = mode
-
-    def set_humans(self):
+    
+    def set_players_count(self):
         msg = "Combien de joueurs vont participer à cette partie? (1-7)\n"
         players_count = input(msg)
         while not players_count.isdigit() or int(players_count)<1 or int(players_count)>7:
@@ -111,9 +115,9 @@ class Game:
             else:
                 print('7 joueurs maximum autorisés!')
             players_count = input(msg)
-        players_count = int(players_count)
-
-
+        return int(players_count)
+    
+    def set_players_stack(self):
         msg = "Combien de jetons auront les joueurs? \n"
         stack = input(msg)
         while not stack.isnumeric() or int(stack)<1:
@@ -122,16 +126,23 @@ class Game:
             elif int(stack)<1:
                 print('Il faut au moins un jeton par joueur pour parier!')
             stack = input(msg)
+        return int(stack)
 
+    def set_players_bet(self, stack):
         msg = "Quelle sera la mise des joueurs? ({} jeton(s) maximum!) \n".format(stack)
         bet = input(msg)
-        while not bet.isnumeric() or int(bet)<1 or int(bet)>int(stack):
+        while not bet.isnumeric() or int(bet)<1 or int(bet)>stack:
             if not bet.isnumeric():
                 print('{} n\'est pas un nombre valide!'.format(bet))
             elif int(bet)<1:
                 print('La mise doit être au minimum de 1 jeton!')
             bet = input(msg)
-        self.bet = int(bet)
+        return int(bet)
+
+    def set_humans(self):
+        players_count = self.set_players_count()
+        stack = self.set_players_stack()
+        self.bet = self.set_players_bet(stack)
         self.humans = self.generate_humans(players_count, stack)
     
     def set_coop_mode(self):
@@ -177,31 +188,28 @@ class Game:
                 self.computer.show_hand()
 
     def show_winner(self):
-        if not self.coop:
-            sentence = "THE WINNER IS " + self.ranking[0]["name"] + "! CONGRATS !" 
-        elif self.ranking[0]["name"] is not self.computer.name:
-            sentence = "PLAYERS DEFEATED THE COMPUTER ! CONGRATS !" 
+        winners = self.get_winners()
+        if len(winners) == 1:
+            print("================================================== \n")
+            print("         LE GAGNANT DE CE TOUR EST {} !            \n".format(winners[0].name))
+            print("================================================== \n")
         else:
-            sentence = "COMPUTER WON THIS TIME !"
-        print("================================================== \n")
-        print("    {}    \n".format(sentence))
-        print("================================================== \n")
-
-    def show_ranking(self):
-        print("================================================== \n")
-        print("                    RANKINGS                       \n")
-        print("================================================== \n")
-        for i, rank in enumerate(self.ranking):
-            if not rank['blackjack']:
-                end_sentence = str(rank['score']) + " points."  
+            draw = self.computer in winners
+            if draw :
+                winners.remove(self.computer)
+            joueurs = ''
+            for player in winners:
+                joueurs += player.name + '\n'
+            if draw:
+                print("================================================== \n")
+                print("                Les joueurs :\n{}                  \n".format(joueurs))
+                print("              sont à égalité avec                  \n")
+                print("                        {} !                       \n".format(self.computer.name))
+                print("================================================== \n")
             else:
-                end_sentence = "un BLACK JACK!"
-            print("{} termine cette partie en position {}, avec {} \n".format(
-                rank['name'], 
-                i+1, 
-                end_sentence
-            ))
-            print("-------------------------------------------------- \n")
+                print("================================================== \n")
+                print("                LES GAGNANTS SONT :\n{}                  \n".format(joueurs))
+                print("================================================== \n")
 
     def humans_bet(self):
         print("================= MISE DES JOUEURS =============== \n")
@@ -216,33 +224,28 @@ class Game:
         print("\n================================================== \n")
     
     def set_gains(self):
-        print("====================== GAINS ===================== \n")  
-        if self.ranking[0]["name"] is not self.computer.name:
-            if self.ranking[0]["score"] == self.computer.hand.score():
-                gains = self.bet * 1.5
-                print("Égalité avec le croupier!\n")
-            else:
-                gains = self.bet * 2
-            if self.coop:
-                for human in self.humans:
-                    human.stack += gains
-                print("Chaque joueur remporte {} jeton(s)!\n".format(gains))
-            else:
-                winners = []
-                for human in self.humans:
-                    i = 1
-                    while self.ranking[i]["score"] == self.ranking[i-1]["score"] and i <= len(self.ranking) - 1:
-                        if human.name == self.ranking[i]["name"]:
-                            winners.append(human.name)
-                            human.stack += gains
-                            i += 1
-                    if human.name == self.ranking[0]["name"]:
-                        winners.append(human.name)
-                        human.stack += gains
-                if len(winners) == 1:
-                    print("{} remporte {} jeton(s)!\n".format(winners[0], gains))
-                elif len(winners) > 1:
-                    print("{} remportent chacun {} jeton(s)!\n".format(",".join(winners), gains))
+        winners = self.get_winners()
+        print("====================== GAINS ===================== \n")
+        if len(winners) == 1 and winners[0] == self.computer:
+            print("     {} a remporté toutes les mises!           \n".format(self.computer.name))
+            print("================================================== \n")
+            return
+        elif self.computer in winners:
+            gains = self.bet * 1.5
+            winners.remove(self.computer)
+        else:
+            gains = self.bet * 2
+        if self.coop:
+            for human in self.humans:
+                human.stack += gains
+            players_getting_gains = [player.name for player in self.humans]
+        else:
+            for winner in winners:
+                winner.stack += gains
+            players_getting_gains = [player.name for player in winners]
+        print("{}".format("\n".join(players_getting_gains)))
+        print("{} remporté {} jeton(s) {}! \n".format("a" if len(players_getting_gains) == 1 else "ont", gains, "chacun" if len(players_getting_gains) > 1 else ""))
+        print("================================================== \n")
         
     def game_over(self):
         if self.coop:
@@ -254,57 +257,34 @@ class Game:
         else:
             for human in self.humans:
                 if human.is_out():
-                    self.humans.delete(human)
+                    self.humans.remove(human)
             if len(self.humans) == 0:
                 print("==================== GAME OVER ==================== \n")
                 print("L'ordinateur a remporté tous les jetons de chacun des joueurs! La partie est finie!")
                 return True        
         return False
 
+    def initialisation(self):
+        self.welcome_msg() # Message de bienvenue
+        self.set_mode() # Paramétrage du mode
+        self.set_humans() # Génération des joueurs "humains"
+        self.set_coop_mode() # Paramétrage du style de jeu
+
+    def turn(self):
+        self.humans_bet() # Mise
+        self.distribution() # distribution des cartes
+        self.status() # Affichage du status
+        self.humans_turn() # Tour des humains
+        self.computer_turn() # Tour de l'ordinateur
+        self.set_ranking() # Génération du classement
+        self.show_winner() # Affichage du gagnant
+        self.set_gains() # Répartition des gains
+        self.reset() # Reset des mains et du jeu
+
     def run(self):
-
-        # Message de bienvenue
-        self.welcome_msg()
-
-        # Paramétrage du mode
-        self.set_mode()
-
-        # Génération des joueurs "humains"
-        self.set_humans()
-
-        # Paramétrage du style de jeu
-        self.set_coop_mode()
-
+        self.initialisation()
         while not self.game_over():
-            # Mise
-            self.humans_bet()
-
-            # distribution des cartes
-            self.distribution()
-        
-            # Affichage du status
-            self.status()
-
-            # Tour des humains
-            self.humans_turn()
-                        
-            # Tour de l'ordinateur / la banque tire à 16, reste à 17
-            self.computer_turn()
-
-            # Génération du classement
-            self.set_ranking()
-
-            # Affichage du gagnant
-            self.show_winner()
-
-            # Répartition des gains
-            self.set_gains()
-
-            # Affichage du classement
-            self.show_ranking()
-
-            # Reset des mains et du jeu
-            self.reset()
+            self.turn()
         
         
 

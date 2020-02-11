@@ -19,8 +19,9 @@ def main():
     # pg.display.set_caption(game_title)
     # clock = pg.time.Clock()
 
-    # settings = Settings('json/settings.json')
+    # settings = Settings('C:/Users/Utilisateur/Desktop/FORMATION/S5_1002-1602_/1102_mardi/blackjack/json/settings.json')
 
+    # game = None
     # running = True
     # while running:
     #     for event in pg.event.get():
@@ -30,6 +31,15 @@ def main():
     #             mouse = pg.mouse.get_pos()
     #             if settings.button.rect.collidepoint(mouse):
     #                 print("clicked")
+
+    #                 mode = settings.fields[0]['input']['text']
+    #                 players_count = settings.fields[1]['input']['text']
+    #                 stack = settings.fields[2]['input']['text']
+    #                 bet = settings.fields[3]['input']['text']
+    #                 coop = settings.fields[4]['input']['text']
+
+    #                 print(mode, players_count, stack, bet, coop)
+
     #             else:
     #                 for field in settings.fields:
     #                     field['input'] = settings.active(field['input'], event.pos)    

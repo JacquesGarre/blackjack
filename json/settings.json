@@ -10,7 +10,7 @@
   },
   "button": {
       "x": 330,
-      "y": 500,
+      "y": 520,
       "w": 140,
       "h": 50,
       "font_color":[173,216,230],
@@ -21,14 +21,14 @@
   "fields": [{
       "label": {
           "x": 400,
-          "y": 150,
+          "y": 100,
           "bg_color": [173,216,230],
           "font_size": 25,
           "font_color": [30, 30, 30],
           "content": "Mode de jeu (EU / US)"
       },
       "input": {
-          "rect": [300, 170, 140, 32],
+          "rect": [300, 120, 140, 32],
           "color": [173,216,230],
           "active": "False",
           "text": "EU"
@@ -36,32 +36,62 @@
   },{
       "label": {
           "x": 400,
-          "y": 250,
+          "y": 180,
           "bg_color": [173,216,230],
           "font_size": 25,
           "font_color": [30, 30, 30],
-          "content": "Nombre de joueurs (1 - 6)"
+          "content": "Nombre de joueurs (1 - 7)"
       },
       "input": {
-          "rect": [300, 270, 140, 32],
+          "rect": [300, 200, 140, 32],
           "color": [173,216,230],
           "active": "False",
           "text": "1"
       }
   },{     
+    "label": {
+        "x": 400,
+        "y": 260,
+        "bg_color": [173,216,230],
+        "font_size": 25,
+        "font_color": [30, 30, 30],
+        "content": "Nombre de jetons"
+    },
+    "input": {
+        "rect": [300, 280, 140, 32],
+        "color": [173,216,230],
+        "active": "False",
+        "text": "50"
+    }
+  },{     
+    "label": {
+        "x": 400,
+        "y": 340,
+        "bg_color": [173,216,230],
+        "font_size": 25,
+        "font_color": [30, 30, 30],
+        "content": "Montant de la mise"
+    },
+    "input": {
+        "rect": [300, 360, 140, 32],
+        "color": [173,216,230],
+        "active": "False",
+        "text": "5"
+    }
+  },{     
       "label": {
           "x": 400,
-          "y": 350,
+          "y": 420,
           "bg_color": [173,216,230],
           "font_size": 25,
           "font_color": [30, 30, 30],
           "content": "Coopération (y / n)"
       },
       "input": {
-          "rect": [300, 370, 140, 32],
+          "rect": [300, 440, 140, 32],
           "color": [173,216,230],
           "active": "False",
           "text": "y"
       }
-  }]
+    }]
 }
